@@ -9,7 +9,6 @@ data class MyEntity(
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long?
 ) {
-
 }
 
 @Entity
@@ -28,7 +27,6 @@ class Person(
     @OneToMany(mappedBy = "person") var albums: MutableList<Album> = mutableListOf(),
     id: Long?
 ) : MyEntity(id) {
-
 }
 
 @Entity
@@ -38,5 +36,10 @@ class Album(
     @OneToMany(mappedBy = "album") var images: MutableList<Image> = mutableListOf(),
     id: Long? = null
 ) : MyEntity(id) {
+}
+
+@Entity
+@Table(name = "AddedDirectories")
+class Directory(@Column val path: String, id: Long? = null) : MyEntity(id){
 }
 

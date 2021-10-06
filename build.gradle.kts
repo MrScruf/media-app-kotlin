@@ -33,6 +33,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.session:spring-session-core")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
@@ -41,6 +42,7 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	// https://mvnrepository.com/artifact/com.github.kilianB/JImageHash
 	implementation("com.github.kilianB:JImageHash:3.0.0")
+	testImplementation("io.projectreactor:reactor-test")
 
 }
 allOpen {

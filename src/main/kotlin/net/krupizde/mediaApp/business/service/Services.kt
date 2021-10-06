@@ -57,7 +57,7 @@ interface PersonService : GeneralService<Person, PersonRepository> {
 }
 
 interface FileService {
-    fun listFiles(path: String): List<File>
+    fun listFiles(path: String): List<File>?
 
-    fun listFiles(file: File): List<File>
+    fun listFiles(file: File): List<File>?
 }

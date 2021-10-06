@@ -7,3 +7,6 @@ spring:
     url: "jdbc:postgresql://192.168.0.160:5432/ImageManager"
     username: MrScruf
     password: krupice
+
+  security:
+    ignored: /**

@@ -6,8 +6,10 @@ import net.krupizde.mediaApp.persistence.repository.GeneralRepository
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.transaction.annotation.Transactional
 
-open class GeneralServiceImpl<Entity : MyEntity, Repository : GeneralRepository<Entity>>(val repository: Repository) :
+@Transactional
+class GeneralServiceImpl<Entity : MyEntity, Repository : GeneralRepository<Entity>>(val repository: Repository) :
     GeneralService<Entity, Repository> {
     override fun findById(id: Long?): Entity? {
         return repository.findById(id);
@@ -34,6 +36,8 @@ open class GeneralServiceImpl<Entity : MyEntity, Repository : GeneralRepository<
     }
 
     override fun update(id: Long, entity: Entity): Entity {
-        TODO("Not yet implemented")
+        val loaded = findById(id) ?: throw IllegalArgumentException("Entity with id $id does not exist")
+        if (entity.id != loaded.id) throw IllegalStateException("Cannot change id of updated entity")
+        return repository.save(entity)
     }
 }

@@ -13,10 +13,12 @@ fun <T> createListResponse(list: List<T>?, page: Int?, size: Int): ResponseEntit
     }
 }
 
-fun <T> createResponseWithCall(call: () -> T ): ResponseEntity<Any> {
+fun <T> createResponseWithCall(call: () -> T): ResponseEntity<Any> {
     return try {
         ResponseEntity.ok(call())
     } catch (e: IllegalArgumentException) {
+        ResponseEntity.badRequest().body(e.localizedMessage)
+    } catch (e: IllegalStateException) {
         ResponseEntity.badRequest().body(e.localizedMessage)
     } catch (e: Exception) {
         ResponseEntity.internalServerError().body(e.localizedMessage)

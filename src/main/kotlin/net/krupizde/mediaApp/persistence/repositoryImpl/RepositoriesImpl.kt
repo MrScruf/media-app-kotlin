@@ -23,7 +23,6 @@ open class GeneralRepositoryImpl<Entity : MyEntity, RepositoryJpa : JpaRepositor
     (private val repositoryJpa: RepositoryJpa) : GeneralRepository<Entity> {
 
     override fun findById(id: Long?): Entity? {
-        repositoryJpa.fin
         return repositoryJpa.findByIdOrNull(id)
     }
 
