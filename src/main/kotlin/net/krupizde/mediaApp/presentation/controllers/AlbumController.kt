@@ -27,11 +27,6 @@ class AlbumController(@Autowired service: AlbumService) :
         return createResponseWithCall { service.addImageToAlbumById(id_album, id_image) }
     }
 
-    @PostMapping(value = ["/{id_album}/images"])
-    fun addImageToAlbumNew(@PathVariable id_album: Long, @RequestBody image: Image): ResponseEntity<Any> {
-        return createResponseWithCall { service.addImageToAlbumNew(id_album, image) }
-    }
-
     @DeleteMapping(value = ["/{id_album}/images/{id_image}"])
     fun removeImageFromAlbum(@PathVariable id_album: Long, @PathVariable id_image: Long): ResponseEntity<Any> {
         return createResponseWithCall { service.removeImageFromAlbum(id_album, id_image) }

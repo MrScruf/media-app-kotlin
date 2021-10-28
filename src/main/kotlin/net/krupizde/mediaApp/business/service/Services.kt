@@ -4,11 +4,11 @@ import com.github.kilianB.hash.Hash
 import net.krupizde.mediaApp.persistence.entity.Album
 import net.krupizde.mediaApp.persistence.entity.Image
 import net.krupizde.mediaApp.persistence.entity.MyEntity
-import net.krupizde.mediaApp.persistence.entity.Person
+import net.krupizde.mediaApp.persistence.entity.Collection
 import net.krupizde.mediaApp.persistence.repository.AlbumRepository
 import net.krupizde.mediaApp.persistence.repository.GeneralRepository
 import net.krupizde.mediaApp.persistence.repository.ImageRepository
-import net.krupizde.mediaApp.persistence.repository.PersonRepository
+import net.krupizde.mediaApp.persistence.repository.CollectionRepository
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -43,21 +43,23 @@ interface ImageService : GeneralService<Image, ImageRepository> {
 interface AlbumService : GeneralService<Album, AlbumRepository> {
     fun addImageToAlbumById(idAlbum: Long, idImage: Long)
 
-    fun addImageToAlbumNew(idAlbum: Long, image: Image): Image
-
     fun removeImageFromAlbum(idAlbum: Long, idImage: Long)
+
+    fun findByNameAndCollection(name: String, collection: Collection): Album?
 }
 
-interface PersonService : GeneralService<Person, PersonRepository> {
-    fun addAlbumToPersonById(idPerson: Long, idAlbum: Long)
+interface CollectionService : GeneralService<Collection, CollectionRepository> {
+    fun addAlbumToCollectionById(idCollection: Long, idAlbum: Long)
 
-    fun addAlbumToPersonNew(idPerson: Long, album: Album): Album
+    fun addAlbumToCollectionNew(idCollection: Long, album: Album): Album
 
-    fun removeAlbumFromPerson(idPerson: Long, idAlbum: Long)
+    //fun removeAlbumFromCollection(idCollection: Long, idAlbum: Long)
 }
 
 interface FileService {
     fun listFiles(path: String): List<File>?
 
     fun listFiles(file: File): List<File>?
+
+    fun initialSort(file: File)
 }

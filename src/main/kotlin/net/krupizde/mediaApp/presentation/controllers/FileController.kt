@@ -14,13 +14,13 @@ class FileController(@Autowired val fileService: FileService) {
     @GetMapping("")
     fun getFiles(@RequestParam path: String): ResponseEntity<*>? {
         val list: List<File> = if (path.isBlank()) File.listRoots().asList() else fileService.listFiles(path)
-            ?: throw Exception("Is file, not folder")
+            ?: throw Exception("Is a file, not a folder")
         val output = list.map { buildFromFile(it) }
         return createResponseWithCall { output }
     }
 
     @PostMapping()
     fun addFileToManager(@RequestParam path: String): ResponseEntity<*> {
-        return createResponseWithCall { "Ahojda" }
+        return createResponseWithCall { fileService.initialSort(File(path)) }
     }
 }

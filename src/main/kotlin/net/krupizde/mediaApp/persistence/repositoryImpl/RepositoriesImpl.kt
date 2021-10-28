@@ -3,14 +3,14 @@ package net.krupizde.mediaApp.persistence.repositoryImpl
 import net.krupizde.mediaApp.persistence.entity.Album
 import net.krupizde.mediaApp.persistence.entity.Image
 import net.krupizde.mediaApp.persistence.entity.MyEntity
-import net.krupizde.mediaApp.persistence.entity.Person
+import net.krupizde.mediaApp.persistence.entity.Collection
 import net.krupizde.mediaApp.persistence.repository.AlbumRepository
 import net.krupizde.mediaApp.persistence.repository.GeneralRepository
 import net.krupizde.mediaApp.persistence.repository.ImageRepository
-import net.krupizde.mediaApp.persistence.repository.PersonRepository
+import net.krupizde.mediaApp.persistence.repository.CollectionRepository
 import net.krupizde.mediaApp.persistence.repositoryJpa.AlbumRepositoryJpa
 import net.krupizde.mediaApp.persistence.repositoryJpa.ImageRepositoryJpa
-import net.krupizde.mediaApp.persistence.repositoryJpa.PersonRepositoryJpa
+import net.krupizde.mediaApp.persistence.repositoryJpa.CollectionRepositoryJpa
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.Page
@@ -20,7 +20,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
 open class GeneralRepositoryImpl<Entity : MyEntity, RepositoryJpa : JpaRepository<Entity, Long>>
-    (private val repositoryJpa: RepositoryJpa) : GeneralRepository<Entity> {
+    (protected val repositoryJpa: RepositoryJpa) : GeneralRepository<Entity> {
 
     override fun findById(id: Long?): Entity? {
         return repositoryJpa.findByIdOrNull(id)
@@ -50,12 +50,16 @@ open class GeneralRepositoryImpl<Entity : MyEntity, RepositoryJpa : JpaRepositor
 
 @Repository
 class AlbumRepositoryImpl(@Autowired albumRepository: AlbumRepositoryJpa) :
-    GeneralRepositoryImpl<Album, AlbumRepositoryJpa>(albumRepository), AlbumRepository
+    GeneralRepositoryImpl<Album, AlbumRepositoryJpa>(albumRepository), AlbumRepository {
+    override fun findByNameAndCollection(name: String, collection: Collection): Album? {
+        return repositoryJpa.findAlbumByNameAndCollection(name, collection);
+    }
+}
 
 @Repository
 class ImageRepositoryImpl(@Autowired imageRepository: ImageRepositoryJpa) :
     GeneralRepositoryImpl<Image, ImageRepositoryJpa>(imageRepository), ImageRepository
 
 @Repository
-class PersonRepositoryImpl(@Autowired personRepository: PersonRepositoryJpa) :
-    GeneralRepositoryImpl<Person, PersonRepositoryJpa>(personRepository), PersonRepository
+class CollectionRepositoryImpl(@Autowired collectionRepository: CollectionRepositoryJpa) :
+    GeneralRepositoryImpl<Collection, CollectionRepositoryJpa>(collectionRepository), CollectionRepository

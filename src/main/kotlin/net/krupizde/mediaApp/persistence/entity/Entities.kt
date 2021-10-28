@@ -8,38 +8,31 @@ data class MyEntity(
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long?
-) {
-}
+)
 
 @Entity
 class Image(
     @Column var name: String,
-    @Column var path: String?,
-    @Column(name = "phash") var pHash: BigInteger?,
+    @Column var path: String,
+    @Column(name = "phash") var pHash: BigInteger? = null,
     @ManyToOne @JoinColumn(name = "id_album") var album: Album?,
     id: Long? = null
-) : MyEntity(id) {
-}
+) : MyEntity(id)
 
 @Entity
-class Person(
+class Collection(
     @Column var name: String,
-    @OneToMany(mappedBy = "person") var albums: MutableList<Album> = mutableListOf(),
-    id: Long?
-) : MyEntity(id) {
-}
+    @Column var path: String,
+    @OneToMany(mappedBy = "collection") var albums: MutableList<Album> = mutableListOf(),
+    id: Long? = null
+) : MyEntity(id)
 
 @Entity
 class Album(
     @Column var name: String,
-    @ManyToOne @JoinColumn(name = "id_person") var person: Person?,
+    @ManyToOne @JoinColumn(name = "id_collection") var collection: Collection,
     @OneToMany(mappedBy = "album") var images: MutableList<Image> = mutableListOf(),
     id: Long? = null
-) : MyEntity(id) {
-}
+) : MyEntity(id)
 
-@Entity
-@Table(name = "AddedDirectories")
-class Directory(@Column val path: String, id: Long? = null) : MyEntity(id){
-}
 

@@ -3,7 +3,7 @@ package net.krupizde.mediaApp.persistence.repository
 import net.krupizde.mediaApp.persistence.entity.Album
 import net.krupizde.mediaApp.persistence.entity.Image
 import net.krupizde.mediaApp.persistence.entity.MyEntity
-import net.krupizde.mediaApp.persistence.entity.Person
+import net.krupizde.mediaApp.persistence.entity.Collection
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -22,6 +22,9 @@ interface GeneralRepository<Entity : MyEntity> {
     fun saveIfNotExists(entity: Entity, criteria: Example<Entity>): Entity
 }
 
-interface AlbumRepository : GeneralRepository<Album>
+interface AlbumRepository : GeneralRepository<Album> {
+    fun findByNameAndCollection(name: String, collection: Collection): Album?;
+}
+
 interface ImageRepository : GeneralRepository<Image>
-interface PersonRepository : GeneralRepository<Person>
+interface CollectionRepository : GeneralRepository<Collection>
