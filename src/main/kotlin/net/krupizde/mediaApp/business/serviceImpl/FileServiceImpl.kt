@@ -4,12 +4,12 @@ import net.krupizde.mediaApp.IMAGE_EXTENSIONS
 import net.krupizde.mediaApp.RANDOM_FOLDER_NAME
 import net.krupizde.mediaApp.SORTED_FOLDER_NAME
 import net.krupizde.mediaApp.business.service.AlbumService
+import net.krupizde.mediaApp.business.service.CollectionService
 import net.krupizde.mediaApp.business.service.FileService
 import net.krupizde.mediaApp.business.service.ImageService
-import net.krupizde.mediaApp.business.service.CollectionService
 import net.krupizde.mediaApp.persistence.entity.Album
-import net.krupizde.mediaApp.persistence.entity.Image
 import net.krupizde.mediaApp.persistence.entity.Collection
+import net.krupizde.mediaApp.persistence.entity.Image
 import org.apache.logging.log4j.kotlin.logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Example
@@ -19,6 +19,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
+import kotlin.io.path.pathString
 
 
 @Service
@@ -90,14 +91,18 @@ class FileServiceImpl @Autowired constructor(
         val albums = collectionSortedFile.listFiles() ?: throw Exception("")
         for (album in albums) {
             logger.info("Processing album ${album.absolutePath}")
-            var albumEntity = Album(name = album.name, collection = collection)
+            var albumEntity = Album(name = album.name, collection = collection, path = album.absolutePath)
             albumEntity = albumService.saveIfNotExists(albumEntity, Example.of(albumEntity))
             processImagesTree(album, albumEntity)
         }
     }
 
     fun processRandom(collection: Collection) {
-        var album = Album(name = RANDOM_FOLDER_NAME, collection = collection)
+        var album = Album(
+            name = RANDOM_FOLDER_NAME,
+            collection = collection,
+            path = Path.of(collection.path, RANDOM_FOLDER_NAME).pathString
+        )
         album = albumService.saveIfNotExists(album, Example.of(album))
         logger.info("Processing random of ${collection.name}")
         processImagesTree(Path.of(collection.path, RANDOM_FOLDER_NAME).toFile(), album)

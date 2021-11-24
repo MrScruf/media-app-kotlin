@@ -15,7 +15,7 @@ class Image(
     @Column var name: String,
     @Column var path: String,
     @Column(name = "phash") var pHash: BigInteger? = null,
-    @ManyToOne @JoinColumn(name = "id_album") var album: Album?,
+    @ManyToOne @JoinColumn(name = "id_album") var album: Album,
     id: Long? = null
 ) : MyEntity(id)
 
@@ -30,6 +30,7 @@ class Collection(
 @Entity
 class Album(
     @Column var name: String,
+    @Column var path: String,
     @ManyToOne @JoinColumn(name = "id_collection") var collection: Collection,
     @OneToMany(mappedBy = "album") var images: MutableList<Image> = mutableListOf(),
     id: Long? = null

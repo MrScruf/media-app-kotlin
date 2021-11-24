@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/albums")
-class AlbumController(@Autowired service: AlbumService) :
-    GeneralController<Album, AlbumRepository, AlbumService>(service) {
+class AlbumController(@Autowired val service: AlbumService) {
     @GetMapping(value = ["/{id}/images"], produces = ["application/json"], params = ["page", "size"])
     fun getImages(
         @PathVariable id: Long,

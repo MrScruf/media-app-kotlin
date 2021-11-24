@@ -22,18 +22,13 @@ class CollectionController(@Autowired service: CollectionService) :
         return createListResponse(albumList, page, size)
     }
 
-    @PostMapping("/{id_collection}/albums/{id_album}")
-    fun addAlbumToCollectionById(@PathVariable id_collection: Long, @PathVariable id_album: Long): ResponseEntity<Any> {
-        return createResponseWithCall { service.addAlbumToCollectionById(id_collection, id_album) }
-    }
-
     @PostMapping(value = ["/{id_collection}/albums"])
-    fun addAlbumToCollectionNew(@PathVariable id_collection: Long, @RequestBody album: Album): ResponseEntity<Any> {
-        return createResponseWithCall { service.addAlbumToCollectionNew(id_collection, album) }
+    fun addAlbumToCollection(@PathVariable id_collection: Long, @RequestBody album: Album): ResponseEntity<Any> {
+        return createResponseWithCall { service.addAlbumToCollection(id_collection, album) }
     }
 
-    /*@DeleteMapping(value = ["/{id_album}/images/{id_image}"])
-    fun removeAlbumFromCollection(@PathVariable id_album: Long, @PathVariable id_image: Long): ResponseEntity<Any> {
-        return createResponseWithCall { service.removeAlbumFromCollection(id_album, id_image) }
-    }*/
+    @DeleteMapping(value = ["/{id_collection}/albums/{id_album}"])
+    fun deleteAlbum(@PathVariable id_collection: Long, @PathVariable id_album: Long): ResponseEntity<Any> {
+        return createResponseWithCall { service.deleteAlbum(id_collection, id_album) }
+    }
 }

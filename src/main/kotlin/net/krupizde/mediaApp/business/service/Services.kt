@@ -49,11 +49,9 @@ interface AlbumService : GeneralService<Album, AlbumRepository> {
 }
 
 interface CollectionService : GeneralService<Collection, CollectionRepository> {
-    fun addAlbumToCollectionById(idCollection: Long, idAlbum: Long)
+    fun addAlbumToCollection(idCollection: Long, album: Album): Album
 
-    fun addAlbumToCollectionNew(idCollection: Long, album: Album): Album
-
-    //fun removeAlbumFromCollection(idCollection: Long, idAlbum: Long)
+    fun deleteAlbum(idCollection: Long, idAlbum: Long): Boolean;
 }
 
 interface FileService {
